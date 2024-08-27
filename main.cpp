@@ -4,6 +4,8 @@
 using namespace std;
 const int screen_width = 1280;
 const int screen_height = 800;
+int player_score = 0;
+int cpu_score = 0;
 
 class Ball {
     public :
@@ -23,9 +25,25 @@ class Ball {
             speed_y *= (-1);
         }
 
-        if(x + radius >= screen_width || x - radius <= 0){
-            speed_x *= (-1);
+        if(x + radius >= screen_width){
+            cpu_score++;
+            ResetGame();
+
         }
+        if( x - radius <= 0){
+            player_score++;
+            ResetGame();
+        }
+    }
+    
+    void ResetGame() {
+        x = screen_width/2;
+        y = screen_height/2;
+
+        int speed_choices[2] = {-1, 1};
+        speed_x *= speed_choices[GetRandomValue(0,1)];
+        speed_y *= speed_choices[GetRandomValue(0,1)];
+
     }
 };
 
@@ -133,12 +151,24 @@ int main () {
             player.Update();
             cpu.Update(ball.y);
 
+            //check for collision 
+            if(CheckCollisionCircleRec(Vector2{ball.x, ball.y},ball.radius, Rectangle{player.x, player.y, player.width, player.height})){
+                ball.speed_x *= -1;
+            }
+
+            if(CheckCollisionCircleRec(Vector2{ball.x, ball.y},ball.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height})){
+                ball.speed_x *= -1;
+            }
+
+
             //drawing
             ClearBackground(BLACK);
             DrawLine(screen_width/2 , 0 , screen_width/2 , screen_height, WHITE);
             ball.Draw();
             player.Draw();
             cpu.Draw();
+            DrawText(TextFormat("%i", player_score), 3* screen_width/4, 10, 80, WHITE);
+            DrawText(TextFormat("%i", cpu_score), screen_width/4, 10, 80, WHITE);
 
         EndDrawing();   //close the canvas
     }
