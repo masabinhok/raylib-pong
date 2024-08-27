@@ -2,6 +2,11 @@
 #include <raylib.h>
 
 using namespace std;
+Color Green = {38, 185, 154, 255};
+Color Dark_Green = {20, 160, 133, 255};
+Color Light_Green = {129, 204, 184, 255};
+Color Yellow = {243, 213, 91, 255};
+
 const int screen_width = 1280;
 const int screen_height = 800;
 int player_score = 0;
@@ -13,7 +18,7 @@ class Ball {
     int speed_x, speed_y, radius;
 
     void Draw () {
-        DrawCircle(x, y , radius, WHITE);
+        DrawCircle(x, y , radius, Yellow);
     }
 
     void Update() {
@@ -27,6 +32,7 @@ class Ball {
 
         if(x + radius >= screen_width){
             cpu_score++;
+
             ResetGame();
 
         }
@@ -68,7 +74,7 @@ class Paddle {
     int speed;
 
     void Draw() {
-        DrawRectangle(x, y, width, height, BLUE);
+        DrawRectangleRounded(Rectangle{x, y, width, height}, 0.8, 0, WHITE);
     }
 
     void Update() {
@@ -117,6 +123,7 @@ int main () {
     //initializing the game window
     InitWindow(screen_width, screen_height, "Pong Game");
 
+    
     //setting the fps
     SetTargetFPS(60);
 
@@ -162,13 +169,16 @@ int main () {
 
 
             //drawing
-            ClearBackground(BLACK);
+            ClearBackground(Dark_Green);
+            DrawRectangle(screen_width/2, 0, screen_width/2, screen_height, Green);
+            DrawCircle(screen_width/2, screen_height/2, 100, Light_Green);
             DrawLine(screen_width/2 , 0 , screen_width/2 , screen_height, WHITE);
             ball.Draw();
             player.Draw();
             cpu.Draw();
             DrawText(TextFormat("%i", player_score), 3* screen_width/4, 10, 80, WHITE);
             DrawText(TextFormat("%i", cpu_score), screen_width/4, 10, 80, WHITE);
+            
 
         EndDrawing();   //close the canvas
     }
