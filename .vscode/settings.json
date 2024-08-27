@@ -10,6 +10,7 @@
 	},
 	"files.associations": {
 		"*.ejs": "html",
-		"*.m": "cpp"
+		"*.m": "cpp",
+		"iostream": "cpp"
 	}
 }
