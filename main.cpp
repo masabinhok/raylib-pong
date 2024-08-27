@@ -19,7 +19,11 @@ int main () {
     while(WindowShouldClose() == false)
     {
         BeginDrawing();   //draw the canvas
- 
+            //drawing
+            DrawCircle(screen_width/2, screen_height/2 , 20, WHITE);
+            DrawRectangle(10, (screen_height/2 - 60), 25, 120, BLUE);
+            DrawRectangle((screen_width- 35), (screen_height/2 - 60), 25, 120, RED);
+            DrawLine(screen_width/2 , 0 , screen_width/2 , screen_height, WHITE);
         EndDrawing();   //close the canvas
     }
 
